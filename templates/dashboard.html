@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fluidic-Ops Dashboard</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #121212;
+            color: white;
+            padding: 20px;
+        }
+        .card {
+            background: #1e1e1e;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+        .flex {
+            display: flex;
+            gap: 10px;
+        }
+        input, button {
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div style="text-align:right;">
+    <a href="/download">📄 Download Report</a>
+    <a href="/logout" style="color:white;">Logout</a>
+</div>
+
+<h1>🚀 Fluidic-Ops Dashboard</h1>
+
+<!-- Summary Cards -->
+<div class="flex">
+    <div class="card">
+        <h3>Total Profit</h3>
+        <p>{{ ranking[0][1] }}</p>
+    </div>
+    <div class="card">
+        <h3>Top Department</h3>
+        <p>{{ ranking[0][0] }}</p>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="flex">
+    <div class="card">
+        <h3>Bar Chart</h3>
+        <img src="/static/bar_chart.png" width="300">
+    </div>
+    <div class="card">
+        <h3>Pie Chart</h3>
+        <img src="/static/pie_chart.png" width="300">
+    </div>
+</div>
+
+<!-- Insights -->
+<div class="card">
+    <h2>Insights</h2>
+    {% for i in insights %}
+        <p>{{ i }}</p>
+    {% endfor %}
+</div>
+
+<!-- Recommendations -->
+<div class="card">
+    <h2>Recommendations</h2>
+    {% for r in recommendations %}
+        <p>{{ r }}</p>
+    {% endfor %}
+</div>
+
+<div class="card">
+    <h2>📁 Upload CSV</h2>
+    <form method="POST" action="/dashboard" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Upload</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>🔍 Filter by Department</h2>
+    <form method="POST" action="/dashboard">
+        <select name="department">
+            <option value="All">All</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Clothing">Clothing</option>
+        </select>
+        <button type="submit">Apply</button>
+    </form>
+</div>
+
+<!-- Chatbot -->
+<div class="card">
+    <h2>Ask Your Data</h2>
+    <form method="POST" action="/dashboard">
+        <input type="text" name="query" placeholder="Ask something..." required>
+        <button type="submit">Ask</button>
+    </form>
+    <p>{{ response }}</p>
+</div>
+
+</body>
+</html>
