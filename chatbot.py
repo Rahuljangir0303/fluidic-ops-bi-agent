@@ -1,26 +1,20 @@
-def answer_query(query, summary):
-    query = query.lower()
+from flask import Flask, render_template, request, redirect, url_for
 
-    # Best department
-    if "best" in query:
-        best = summary['profit'].idxmax()
-        return f"{best} is the best performing department."
+app = Flask(__name__)
 
-    # Worst department
-    elif "worst" in query or "weak" in query:
-        worst = summary['profit'].idxmin()
-        return f"{worst} is the weakest department."
+# LOGIN PAGE
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        return redirect(url_for('dashboard'))
+    return render_template('login.html')
 
-    # Profit info
-    elif "profit" in query:
-        response = ""
-        for dept, row in summary.iterrows():
-            response += f"{dept} profit is {row['profit']}\n"
-        return response
 
-    # Recommendation
-    elif "recommend" in query:
-        return "Focus on reducing expenses and increasing sales."
+# DASHBOARD PAGE
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
 
-    else:
-        return "Sorry, I didn't understand. Try asking about best, worst, profit, or recommendations."
+
+if __name__ == "__main__":
+    app.run(debug=True)

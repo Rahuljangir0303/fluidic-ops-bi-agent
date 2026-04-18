@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from agent import run_agent
-from chatbot import answer_query
+# from chatbot import answer_query
 from auth import check_login
 import pandas as pd
 import os
+from flask import session
 from report_generator import create_pdf
 from flask import send_file
-
 
 app = Flask(__name__)
 app.secret_key = "secret123"
@@ -16,8 +16,8 @@ app.secret_key = "secret123"
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+        username = request.form.get('username').strip()
+        password = request.form.get('password').strip()
 
         if not username or not password:
             return "Please enter username and password"
@@ -79,8 +79,7 @@ def dashboard():
         response=response
     )
     
-
-# 🚪 LOGOUT ROUTE
+    # 🚪 LOGOUT ROUTE
 @app.route('/logout')
 def logout():
     session.pop('user', None)
