@@ -18,21 +18,33 @@
         .flex {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
-        input, button {
+        input, button, select {
             padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            cursor: pointer;
+        }
+        .response-box {
+            margin-top: 10px;
+            padding: 10px;
+            background: #2a2a2a;
+            border-radius: 8px;
+            color: lightgreen;
         }
     </style>
 </head>
 <body>
 
-    <div style="text-align:right;">
-        <a href="/logout">🚪 Logout</a>
-    </div>
+<div style="text-align:right;">
+    <a href="/logout" style="color:white;">🚪 Logout</a>
+</div>
 
 <h1>🚀 Fluidic-Ops Dashboard</h1>
 
-<!-- Summary Cards -->
+<!-- Summary -->
 <div class="flex">
     <div class="card">
         <h3>Total Profit</h3>
@@ -72,38 +84,49 @@
     {% endfor %}
 </div>
 
+<!-- Upload -->
 <div class="card">
     <h2>📁 Upload CSV</h2>
     <form method="POST" action="/dashboard" enctype="multipart/form-data">
         <input type="file" name="file" required>
+        <br>
         <button type="submit">Upload</button>
     </form>
 </div>
 
+<!-- Filter -->
 <div class="card">
-    <h2>🔍 Filter by Department</h2>
+    <h2>🔍 Filter</h2>
     <form method="POST" action="/dashboard">
         <select name="department">
             <option value="All">All</option>
             <option value="Electronics">Electronics</option>
             <option value="Clothing">Clothing</option>
         </select>
+        <br>
         <button type="submit">Apply</button>
     </form>
 </div>
 
 <!-- Chatbot -->
 <div class="card">
-    <h2>Ask Your Data</h2>
-    <form method="POST" action="/dashboard">
-        <input type="text" name="query" placeholder="Ask something..." required>
+    <h2>🤖 Ask Your Data</h2>
+    <form method="POST" action="/ask">
+        <input type="text" name="query" placeholder="Ask 'total profit'" required>
+        <br>
         <button type="submit">Ask</button>
     </form>
-    <p>{{ response }}</p>
+
+    {% if response %}
+        <div class="response-box">
+            🤖 {{ response }}
+        </div>
+    {% endif %}
 </div>
 
+<!-- Download -->
 <div class="card">
-    <a href="/download">📄 Download Report</a>
+    <a href="/download" style="color:white;">📄 Download Report</a>
 </div>
 
 </body>

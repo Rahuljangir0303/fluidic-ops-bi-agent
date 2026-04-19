@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')   # ✅ no GUI backend
 import matplotlib.pyplot as plt
 
 def generate_chart(summary):
